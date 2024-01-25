@@ -52,7 +52,7 @@ build-single:
 
 .PHONY: deploy-poc
 deploy-poc:
-	ssh 10.177.10.1 "kubectl set image deployment/ipmi-exporter -n luban ipmi-exporter=harbor.inner.galaxy.ksyun.com/luban/ipmi_exporter:$(VERSION)"
+	ssh 10.177.10.1 "kubectl set image deployment/ipmi-exporter -n monitoring ipmi-exporter=harbor.inner.galaxy.ksyun.com/luban/ipmi_exporter:$(VERSION)"
 
 #DOCKER_ARCHS      ?= amd64 arm64
 DOCKER_ARCHS      ?= amd64
