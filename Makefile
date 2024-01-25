@@ -16,7 +16,7 @@ COMMIT := $(shell git rev-parse --short HEAD)
 VERSION := $(shell git describe --tags)
 BuildTime := $(shell git show -s --format=%cd)
 SERVER_DIR := "."
-BRANCH := $(shell git branch)
+BRANCH := $(shell git branch --show-current)
 user := $(shell whoami)
 hostname := $(shell hostname)
 
@@ -49,6 +49,10 @@ build-single:
 	-f Dockerfile_multi \
 	-t harbor.inner.galaxy.ksyun.com/luban/ipmi_exporter:$(VERSION) ./
 	echo -e "\n>>> '编译成功'"
+
+.PHONY: deploy-poc
+deploy-poc:
+	ssh 10.177.10.1 "kubectl set image deployment/alarmv2 -n luban alarmv2=harbor.inner.galaxy.ksyun.com/luban/alarmv2:$(VERSION)"
 
 #DOCKER_ARCHS      ?= amd64 arm64
 DOCKER_ARCHS      ?= amd64
