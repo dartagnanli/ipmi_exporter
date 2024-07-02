@@ -22,9 +22,9 @@ RUN GoVersion=$(go version) && \
     -X '${PKG_NAME}/common/version.BuildDate=${BuildTime}'" \
     -a -o ./_output/ipmi_exporter ${SERVER_DIR}
 
-FROM --platform=$TARGETPLATFORM harbor.inner.galaxy.ksyun.com/luban/alpine:3.19.0
+FROM --platform=$TARGETPLATFORM harbor.inner.galaxy.ksyun.com/luban/openeuler-minimal:latest
 WORKDIR /app/
-RUN apk --no-cache add freeipmi
+RUN yum -y install --nodocs --setopt install_weak_deps=0 freeipmi && yum clean all -y
 COPY --from=builder /usr/share/zoneinfo/ /usr/share/zoneinfo/
 COPY --from=builder /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 COPY --from=builder /workshop/_output/ipmi_exporter ./ipmi_exporter
